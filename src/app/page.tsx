@@ -1,6 +1,10 @@
 "use client";
+import { Product } from "@/db";
 import { cn } from "@/lib/utils";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { useQuery } from "@tanstack/react-query";
+import { QueryResult } from "@upstash/vector";
+import axios from "axios";
 import { ChevronDown, Filter } from "lucide-react";
 import { useState } from "react";
 
@@ -12,6 +16,20 @@ const SORT_OPTIONS = [
 
 export default function Home() {
     const [filter, setFilter] = useState({ sort: "none" });
+
+    const { data: products } = useQuery({
+        queryKey: ["products"],
+        queryFn: async () => {
+            const { data } = await axios.post<QueryResult<Product>[]>("http://localhost:3000/api/products", {
+                filter: {
+                    sort: filter.sort
+                }
+            })
+            return data;
+        }
+    });
+
+    console.log(products);
     
     return (
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -52,6 +70,16 @@ export default function Home() {
                     </button>
                 </div>
             </div>
+
+            <section className="pb-24 pt-6">
+                <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+                    {/*Filter*/}
+                    <div></div>
+
+                    {/*Product grid*/}
+                    <ul className=""></ul>
+                </div>
+            </section>
         </main>
     );
 }

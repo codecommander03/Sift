@@ -1,5 +1,7 @@
 "use client";
-import { Product } from "@/db";
+import Product from "@/components/Products/Product";
+import ProductSkeleton from "@/components/Products/ProductSkeleton";
+import type { Product as TProduct } from "@/db";
 import { cn } from "@/lib/utils";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { useQuery } from "@tanstack/react-query";
@@ -14,13 +16,20 @@ const SORT_OPTIONS = [
     { name: "Price: High to Low", value: "price-desc" },
 ] as const;
 
+const SUBCATEGORIES = [
+    { name: "T-Shirts", selcted: true, href: "#" },
+    { name: "Hoodies", selcted: false, href: "#" },
+    { name: "Sweatshirts", selcted: false, href: "#" },
+    { name: "Accessories", selcted: false, href: "#" },
+]
+
 export default function Home() {
     const [filter, setFilter] = useState({ sort: "none" });
 
     const { data: products } = useQuery({
         queryKey: ["products"],
         queryFn: async () => {
-            const { data } = await axios.post<QueryResult<Product>[]>("http://localhost:3000/api/products", {
+            const { data } = await axios.post<QueryResult<TProduct>[]>("http://localhost:3000/api/products", {
                 filter: {
                     sort: filter.sort
                 }
@@ -74,10 +83,22 @@ export default function Home() {
             <section className="pb-24 pt-6">
                 <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                     {/*Filter*/}
-                    <div></div>
+                    <div className="hidden lg:block">
+                        <ul className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900 ">
+                            {SUBCATEGORIES.map((category) => (
+                                <li>{category}</li>
+                            ))}
+                        </ul>
+                    </div>
 
                     {/*Product grid*/}
-                    <ul className=""></ul>
+                    <ul className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                        {products ? products.map((product) => (
+                            <Product key={product.id} product={product.metadata!} />
+                        )) : new Array(12).fill(null).map((_, i) => (
+                            <ProductSkeleton key={i} />
+                        )) }
+                    </ul>
                 </div>
             </section>
         </main>

@@ -22,3 +22,11 @@ Also used debounce timeout of 0.4s to prevent cooking up the API.
 
 ### Ending Date:
     28th April 2024
+
+## Images:
+
+![alt text](image.png)
+
+![alt text](image-1.png)
+
+![alt text](image-2.png)

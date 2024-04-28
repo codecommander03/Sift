@@ -38,6 +38,11 @@ Also used debounce timeout of 0.4s to prevent cooking up the API.
 
 2. Run `npm install`
 
+3. Set up Serverless Database on Upstash: <br/>
+go to [Upstash](https://upstash.com/) and make an account
+Then create a vector database and get the `UPSTASH_VECTOR_REST_URL` and `UPSTASH_VECTOR_REST_TOKEN` and add them to the .env file
+![alt text](image-3.png)
+
 3. Run `npm seed`
 
 4. Run `npm run dev`

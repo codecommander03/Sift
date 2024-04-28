@@ -30,3 +30,18 @@ Also used debounce timeout of 0.4s to prevent cooking up the API.
 ![alt text](image-1.png)
 
 ![alt text](image-2.png)
+
+# Steps to run the project:
+
+1. Clone the repository:<br/>
+`git clone https://github.com/codecommander03/Sift.git`
+
+2. Run `npm install`
+
+3. Run `npm seed`
+
+4. Run `npm run dev`
+
+5. Open the browser and go to [Localhost 3000](http://localhost:3000)
+
+6. Enjoy the application

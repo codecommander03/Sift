@@ -58,15 +58,17 @@ export const POST = async (req: NextRequest) => {
       vector: [
         0,
         0,
-        sort === 'none'
+        // @ts-ignore
+        sort === "none"
           ? AVG_PRODUCT_PRICE
-          : sort === 'price-asc'
+          : // @ts-ignore
+          sort === "price-asc"
           ? 0
           : MAX_PRODUCT_PRICE,
       ],
       includeMetadata: true,
       filter: filter.hasFilter() ? filter.get() : undefined,
-    })
+    });
 
     return new Response(JSON.stringify(products))
   } catch (err) {
